@@ -3,8 +3,9 @@
 
 // Khai báo nguyên mẫu hàm
 void kiemtrasonguyen();
+void usc_bsc();
 
-//Chức năng 1
+// Chức năng 1
 void kiemtrasonguyen() {
     printf("\n>>> Ban da chon Chuc nang so 1 <<<\n");
     int x, i, count = 0;
@@ -17,9 +18,9 @@ void kiemtrasonguyen() {
             printf("\n%d khong phai so nguyen to", x);
         } else {
             for (i = 2; i <= sqrt(x); i++) {
-                if (x % i == 0) {
-                    count++;
-                    break;
+            if (x % i == 0) {
+                count++;
+                break;
                 }
             }
             if (count == 0) {
@@ -41,6 +42,27 @@ void kiemtrasonguyen() {
         }
     }
     printf("\n"); // Xuống dòng cho đẹp
+}
+
+// Chức năng 2
+int ucln(int a, int b) {
+    if (b == 0) {
+        return a;
+    } else {
+        return ucln(b, a % b);
+    }
+}
+int bcln(int a, int b) {
+    return (a * b) / ucln(a, b);
+}
+void usc_bsc() {
+    printf("\nBan da chon Chuc nang so 2\n");
+    int a, b;
+    printf("\nNhap a va b: ");
+    scanf("%d%d", & a, & b);
+    printf("UCLN cua %d va %d la %d", a, b, ucln(a, b));
+    printf("\nBCLN cua %d va %d la %d", a, b, bcln(a, b));
+    printf("\n"); //Xuống dòng cho đẹp
 }
 
 
@@ -68,7 +90,7 @@ int main() {
                 break; 
 
             case 2: 
-                printf("2. Tim uoc so chung va boi so chung cua 2 con so\n"); 
+                usc_bsc();
                 break;
 
             case 3: 
