@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 
 int main() { 
     int choice;
     do {
-        
         printf("\n-----ASM2 cua Van Chi Khang PS49634-----\n");
         printf("1. Chuc nang kiem tra so nguyen\n");
         printf("2. Tim uoc so chung va boi so chung cua 2 con so\n");
@@ -23,8 +23,6 @@ int main() {
         
         scanf("%d", &choice);
 
-        switch (choice)
-        {
         switch (choice) {
         case 1: { 
             float x;
@@ -34,7 +32,7 @@ int main() {
             if (x == (int)x) {
                 int n = (int)x;
                 printf("%.0f la so nguyen.\n", x);
-                
+        
                 // Kiem tra so nguyen to
                 int isPrime = (n < 2) ? 0 : 1;
                 for (int i = 2; i <= sqrt(n); i++) {
@@ -55,7 +53,6 @@ int main() {
 
         case 2:
         {   
-            printf("\n>>> Ban da chon chuc nang so 2 <<<\n");
             int x, y;
             printf("x = "); scanf("%d", &x);
             printf("y = "); scanf("%d", &y);
@@ -77,29 +74,27 @@ int main() {
 
         case 3:
         {
-        printf("\nBan da chon Chuc nang 3\n");
-        int bd,kt,time,adt;
-        float pay,adm;
-        printf("\nNhap gio bat dau: ");
-	    scanf("%d",&bd);
-        printf("Nhap gio ket thuc: ");
-	    scanf("%d",&kt);
-        time = kt-bd;
-        if(time<=3){
-           pay = time*150000;
-        }else{
-           adt = time-3;
-           adm = adt*150000*0.7;
-           pay = 3*150000+adm;
+            int bd,kt,time,adt;
+            float pay,adm;
+            printf("\nNhap gio bat dau: ");
+            scanf("%d",&bd);
+            printf("Nhap gio ket thuc: ");
+            scanf("%d",&kt);
+            time = kt-bd;
+            if(time<=3){
+               pay = time*150000;
+            }else{
+               adt = time-3;
+               adm = adt*150000*0.7;
+               pay = 3*150000+adm;
+            }
+            if (bd>=14 && bd<=17){
+               pay = pay*0.9;
+            }
+            printf("Tong so tien can thanh toan la: %.2f",pay);
+            printf("\n");
+            break;
         }
-        if (bd>=14 && bd<=17){
-           pay = pay*0.9;
-        }
-    printf("Tong so tien can thanh toan la: %.2f",pay);
-    printf("\n"); // Xuống dòng cho đẹp
-    }
-    break;
-    }
 
         case 4:
         {
@@ -116,7 +111,7 @@ int main() {
              else if (kwh <= 300) bill = lim1 * (lv1 + lv2) + lim2 * lv3 + (kwh - lim3) * lv4;
              else bill = kwh * 2000; 
 
-            printf("Hoa don tam tinh (theo code cu): %.0f\n", bill);
+            printf("Hoa don tam tinh: %.0f\n", bill);
             break;
         }
 
@@ -136,16 +131,162 @@ int main() {
         }
 
         case 6:
-            printf("6. Chuc nang tinh lai vay ngan hang vay tra gop\n");
+        {
+            float tien_vay;                              
+            printf("Số tiền vay: \n");                      
+            scanf("%f", &tien_vay);                        
+            float lai_suat = 0.05;                         
+            int ky_han = 12;                              
+            float tien_goc_hang_thang = tien_vay / ky_han; 
+            float tien_goc_con_lai = tien_vay;             
+            // Vòng lặp in bảng trả nợ cho 12 tháng
+            for (int i = 1; i <= ky_han; i++)
+            {
+                float tien_lai = tien_goc_con_lai * lai_suat;            
+                float tong_tien = tien_goc_hang_thang + tien_lai;         
+                tien_goc_con_lai = tien_goc_con_lai - tien_goc_hang_thang; 
+                // In thông tin chi tiết từng tháng
+                printf("Kỳ hạn: %d\n", i);
+                printf("Tiền lãi: %.0f\n", tien_lai);
+                printf("Tiền gốc hàng tháng: %.0f\n", tien_goc_hang_thang);
+                printf("Tổng tiền: %.0f\n", tong_tien);
+                printf("Tiền gốc còn lại: %.0f\n", tien_goc_con_lai);
+                printf("\n"); // Cách dòng
+            }
             break;
+        }
         
         case 7:
-            printf("7. Chuc nang tinh tien mua xe\n");
+        {  
+            long long giaxe;
+            int nam;
+            const double lainam = 0.072; // 7.2% mot nam
+            
+            printf("Gia tri xe: ");
+            scanf("%lld", &giaxe);
+            
+            printf("Thoi han vay (nam): ");
+            scanf("%d", &nam);
+            
+            printf("Lai suat co dinh: %.1lf%%\n", lainam * 100);
+
+            // Nhập phần trăm vay
+            int phantramvay;
+            do {
+                printf("Nhap phan tram ban muon vay (0-100): ");
+                scanf("%d", &phantramvay);
+                if (phantramvay < 0 || phantramvay > 100) {
+                    printf("SO KHONG HOP LE!! VUI LONG NHAP LAI.\n");
+                }
+            } while (phantramvay < 0 || phantramvay > 100);
+
+            // Tính toán
+            double tilevay = phantramvay / 100.0;
+            long long tienvay = giaxe * tilevay;
+            long long sotientratruoc = giaxe - tienvay;
+
+            // Tính số tiền tháng và số tháng vay
+            double laithang = lainam / 12;
+            int sothang = nam * 12;
+
+            // Tính số tiền trả hàng tháng 
+            double tientrahangthang;
+            if (laithang > 0) {
+                double heso = pow(1 + laithang, sothang);
+                tientrahangthang = tienvay * (laithang * heso) / (heso - 1);
+            }
+            else {
+                tientrahangthang = (double)tienvay / sothang;
+            }
+
+            // Hien thi ket qua
+            printf("\n=== KET QUA ===\n");
+            printf("1. So tien tra truoc: %lld VND\n", sotientratruoc);
+            printf("2. So tien vay: %lld VND\n", tienvay);
+            printf("3. So tien tra hang thang: %.0lf VND\n", tientrahangthang);
+            printf("4. Thoi ki vay: %d thang\n", sothang);
+
+            // Tinh tong
+            double tongtragop = tientrahangthang * sothang;
+            double tonglai = tongtragop - tienvay;
+            double tongtientra = sotientratruoc + tongtragop;
+
+            printf("Tong so tien phai tra gop: %.0lf VND\n", tongtragop);
+            printf("Tong lai phai tra: %.0lf VND\n", tonglai);
+            printf("Tong tien phai tra: %.0lf VND\n", tongtientra);
+            printf("Chenh lech so voi gia xe: %.0lf VND\n", tongtientra - giaxe);
+            
             break;
+        }
         
         case 8:
-            printf("8. Chuc nang sap xep thong tin sinh vien\n");
-            break;
+        {
+            int n;
+            int i;  // Khai báo biến để chạy
+            printf("Nhap so luong sinh vien: ");
+            scanf("%d", &n);         
+            char Hoten[50][100];  // Khai báo mảng song song
+            float Diem[10];
+            char Hocluc[20][100];
+                
+                // Nhập thông tin sinh viên
+                for (i = 0; i < n; i++) {
+                    printf("\nNhap thong tin Sinh Vien %d:\n", i + 1);
+                    printf("Nhap Diem: ");
+                    scanf("%f", &Diem[i]);
+                    // Xoa bo nho dem truoc khi nhap chuoi
+                    while((getchar()) != '\n'); 
+                    printf("Nhap Ho ten: ");
+                    fgets(Hoten[i], sizeof(Hoten[i]), stdin); 
+                    Hoten[i][strcspn(Hoten[i], "\n")] = 0;
+                }
+
+                 //1. Xếp loại học lực của sinh viên
+                for (i=0; i<n; i++){
+                   if (Diem[i]>=9.0)
+                      strcpy(Hocluc[i], "Xuat sac");
+                   else if (Diem[i]>=8.0)
+                      strcpy(Hocluc[i], "Gioi");
+                   else if (Diem[i]>=6.5)
+                      strcpy(Hocluc[i], "Kha");
+                    else if (Diem[i]>=5.0)
+                      strcpy(Hocluc[i], "Trung Binh");
+                    else if (Diem[i]<5.0)
+                      strcpy (Hocluc[i], "Kem");
+                }
+
+
+                // 2. sắp xếp giảm dần theo điểm (Thuat toan Bubble Sort)
+                for (int j = 0; j < n - 1; j++) {
+                    for (int k = j + 1; k < n; k++) {
+                        if (Diem[j] < Diem[k]) {
+                            // Doi cho Diem
+                            float tempDiem = Diem[j];
+                            Diem[j] = Diem[k];
+                            Diem[k] = tempDiem;
+                            
+                            // Doi cho Ten
+                            char tempTen[50];
+                            strcpy(tempTen, Hoten[j]);
+                            strcpy(Hoten[j], Hoten[k]);
+                            strcpy(Hoten[k], tempTen);
+                            
+                            // Doi cho Hoc luc
+                            char tempHL[20];
+                            strcpy(tempHL, Hocluc[j]);
+                            strcpy(Hocluc[j], Hocluc[k]);
+                            strcpy(Hocluc[k], tempHL);
+                        }
+                    }
+                }
+
+                // Xuất thông tin sinh viên
+                printf("\n--- DANH SACH SINH VIEN ---\n");
+                for (i = 0; i < n; i++) {
+                    printf("Ho ten: %-20s | Diem: %-5.1f | Hoc luc: %s\n", Hoten[i], Diem[i], Hocluc[i]);
+                }
+                break;
+            }
 
         case 9:
             printf("9. Chuc nang xay dung game FPOLY-LOTT\n");
